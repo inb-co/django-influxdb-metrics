@@ -1,9 +1,9 @@
 """Utilities for working with influxdb."""
-from threading import Thread
-
 from django.conf import settings
 
 from influxdb import InfluxDBClient
+
+from influxdb_metrics.pool import get_pool
 
 
 def get_client():
@@ -45,8 +45,8 @@ def write_points(data, force_disable_threading=False):
     if force_disable_threading:
         use_threading = False
     if use_threading is True:
-        thread = Thread(target=write_points_threaded, args=(client, data, ))
-        thread.start()
+        pool = get_pool()
+        pool.submit(write_points_threaded, client, data)
     else:
         client.write_points(data)
 
