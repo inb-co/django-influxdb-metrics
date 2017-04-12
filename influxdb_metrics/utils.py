@@ -5,19 +5,21 @@ from influxdb import InfluxDBClient
 
 from influxdb_metrics.pool import get_pool
 
+client = InfluxDBClient(
+    settings.INFLUXDB_HOST,
+    settings.INFLUXDB_PORT,
+    settings.INFLUXDB_USER,
+    settings.INFLUXDB_PASSWORD,
+    settings.INFLUXDB_DATABASE,
+    timeout=settings.INFLUXDB_TIMEOUT,
+    ssl=getattr(settings, 'INFLUXDB_SSL', False),
+    verify_ssl=getattr(settings, 'INFLUXDB_VERIFY_SSL', False),
+)
+
 
 def get_client():
     """Returns an ``InfluxDBClient`` instance."""
-    return InfluxDBClient(
-        settings.INFLUXDB_HOST,
-        settings.INFLUXDB_PORT,
-        settings.INFLUXDB_USER,
-        settings.INFLUXDB_PASSWORD,
-        settings.INFLUXDB_DATABASE,
-        timeout=settings.INFLUXDB_TIMEOUT,
-        ssl=getattr(settings, 'INFLUXDB_SSL', False),
-        verify_ssl=getattr(settings, 'INFLUXDB_VERIFY_SSL', False),
-    )
+    return client
 
 
 def query(query):

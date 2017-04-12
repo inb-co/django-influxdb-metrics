@@ -6,16 +6,6 @@ from mock import patch
 from .. import utils
 
 
-class GetClientTestCase(TestCase):
-    """Tests for the ``get_client`` method."""
-    longMessage = True
-
-    def test_method(self):
-        with patch('influxdb_metrics.utils.InfluxDBClient'):
-            result = utils.get_client()
-            self.assertTrue('InfluxDBClient()' in str(result))
-
-
 class QueryTestCase(TestCase):
     """Tests for the ``query`` method."""
     longMessage = True
